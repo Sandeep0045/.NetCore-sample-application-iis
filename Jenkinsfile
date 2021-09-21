@@ -24,6 +24,16 @@ pipeline {
                sh 'dotnet publish  hwwebapp.csproj --configuration Release --no-restore'
              }
         }
+        
+        stage('Push') {
+            steps {
+              sh """
+              cd ${WORKSPACE}/bin/Release
+              /bin/zip -r net5_0.zip net5.0/
+              /bin/jfrog rt u net5_0.zip  dotnetcore/  --url http://34.141.137.211:8082/artifactory --user admin --password Emids9211!
+               """
+}
+}
          
      
     }
